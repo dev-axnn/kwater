@@ -7,7 +7,6 @@ window.onload = function(){
   let header = $('.header');
   let gnb = $('.gnb');
   let gnbH = gnb.height();
-  console.log(gnbH);
   gnb.mouseenter(function(){
     header.css('height', gnbH);
   });
