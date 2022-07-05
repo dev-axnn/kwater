@@ -460,6 +460,42 @@ body {
   background: #fff;
 }
 
+.arrow_b,
+.arrow_w {
+  position: absolute;
+  bottom: 40px;
+  display: block;
+  width: 34px;
+  height: 8px;
+  transition: transform 0.5s;
+}
+
+.arrow_b {
+  background: url('../images/arrow-b.png') no-repeat center;
+  background-size: cover;
+}
+
+.arrow_w {
+  background: url('../images/arrow-w.png') no-repeat center;
+  background-size: cover;
+}
+
+.about-box-symbol .arrow_b {
+  right: 35px;
+}
+
+.about-box-ceo:hover .arrow_w {
+  transform: translateX(50%);
+}
+
+.about-box-symbol:hover .arrow_b {
+  transform: translateX(50%);
+}
+
+.about-box-member:hover .arrow_b {
+  transform: translateX(50%);
+}
+
 .about-box-left {}
 .about-box-center {}
 .about-box-right {
@@ -467,9 +503,15 @@ body {
 }
 
 .about-box-round {
+  position: relative;
   border-radius: 20px 0 20px 0;
   overflow: hidden;
   box-shadow: 2px 2px 15px rgb(63 68 138 / 15%);
+}
+
+.about-box-round a:hover .about-box-txt{
+  text-decoration: underline;
+
 }
 
 .mb-36 {
@@ -515,9 +557,98 @@ body {
 }
 
 .about-slide {
+  position: relative;
   border-radius: 20px 20px 0 0;
   height: 100%;
   box-shadow: 2px 2px 15px rgb(63 68 138 / 15%);
+  overflow: hidden;
+}
+
+.sw-about {
+  width: 100%;
+  height: 100%;
+}
+
+.sw-about .swiper-slide a {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sw-about .swiper-slide a img {
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+}
+
+.sw-about-control {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 9;
+  background: #18263b;
+}
+.sw-about-title {
+  display: block;
+  float: left;
+  font-size: 20px;
+  color: #fff;
+  line-height: 56px;
+  padding-left: 25px;
+}
+.sw-about-bt {
+  float: right;
+  padding-right: 25px;
+  padding-top: 15px;
+}
+
+.sw-about-pg {
+  display: inline-block;
+  width: auto;
+  bottom: auto;
+  left: auto;
+  color: #fff;
+  font-size: 17px;
+  vertical-align: 2px;
+  margin-right: 25px;
+}
+
+.sw-about-prev {
+  width: 10px;
+  height: 17px;
+  background: url('../images/main_pop_leftarrow.png') no-repeat center;
+  background-size: cover;
+  cursor: pointer;
+  border: 0;
+  margin-right: 15px;
+}
+
+.sw-about-pause {
+  width: 10px;
+  height: 17px;
+  background: url('../images/main_pop_stop.png') no-repeat center;
+  background-size: 90%;
+  cursor: pointer;
+  border: 0;
+  margin-right: 15px;
+}
+
+.sw-about-play {
+  background: url('../images/main_pop_play.png') no-repeat center;
+}
+
+.sw-about-next {
+  width: 10px;
+  height: 17px;
+  background: url('../images/main_pop_rightarrow.png') no-repeat center;
+  background-size: cover;
+  cursor: pointer;
+  border: 0;
 }
 
 .about-box-member,
@@ -534,7 +665,8 @@ body {
 }
 
 .about-box-sns {
-  background: #b9c3ff ;
+  background: #b9c3ff;
+  padding: 35px;
 }
 
 .about-box-sns::before {
@@ -547,18 +679,71 @@ body {
   height: 226px;
 }
 
-.about-box-char-0::after {
+.about-box-char-0::before {
   background: url('../images/char-0.png') no-repeat right bottom;
   background-size: cover;
 }
 
-.about-box-char-1::after {
+.about-box-char-1::before {
   background: url('../images/char-1.png') no-repeat right bottom;
   background-size: cover;
 }
 
 .about-box-char-2::before {
   background: url('../images/char2.png') no-repeat right bottom;
+  background-size: cover;
+}
+
+.about-box-sns-title {
+  position: relative;
+  font-size: 24px;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.sns-icon-wrap {
+  position: relative;
+  display: block;
+  font-size: 0;
+  white-space: nowrap;
+  margin-top: 10px;
+}
+
+.sns-icon-wrap a {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  font-size: 0;
+  margin-right: 8px;
+}
+
+.sns-icon-yt {
+  background: url('../images/about_yt.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-fb {
+  background: url('../images/about_fb.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-in {
+  background: url('../images/about_in.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-bl {
+  background: url('../images/about_bl.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-pt {
+  background: url('../images/about_na.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-tw {
+  background: url('../images/about_tw.png') no-repeat center;
+  background-size: cover;
+}
+.sns-icon-kt {
+  background: url('../images/about_kt.png') no-repeat center;
   background-size: cover;
 }
 
