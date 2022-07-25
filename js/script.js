@@ -1,9 +1,6 @@
-$(document).ready(function(){
-
-});
-
-window.onload = function(){
-  // 랜덤 사진 기능(0~2)
+$(document).ready(function () {});
+window.onload = function () {
+  // 랜덤 천사 기능(0~2)
   let rNum = Math.floor(Math.random() * 3);
   let rClass = 'about-box-char-' + rNum;
   let rTag = $('.about-box-sns');
@@ -13,10 +10,11 @@ window.onload = function(){
   let header = $('.header');
   let gnb = $('.gnb');
   let gnbH = gnb.height();
-  gnb.mouseenter(function(){
+
+  gnb.mouseenter(function () {
     header.css('height', gnbH);
   });
-  gnb.mouseleave(function(){
+  gnb.mouseleave(function () {
     header.css('height', 70);
   });
 
@@ -40,32 +38,72 @@ window.onload = function(){
     speed: 500,
     pagination: {
       el: '.sw-about-pg',
-      type: 'fraction'  //페이지네이션 모양 'n/N'
+      type: 'fraction'
     },
     navigation: {
       nextEl: '.sw-about-next',
       prevEl: '.sw-about-prev'
     },
-    allowTouchMove: false  //터치무브 없애기
+    allowTouchMove: false
   });
 
   let swAboutBt = $('.sw-about-pause');
-  swAboutBt.click(function(){
+  swAboutBt.click(function () {
     // 현재 class 상태 체크
     let temp = $(this).hasClass('sw-about-play');
-    if(temp == true) {
+    if (temp == true) {
       // 슬라이드 자동 실행
       swAbout.autoplay.start();
       // 아이콘을 pause 버튼으로 바꾼다.
       // 사용자는 멈추기 위해서 클릭을 하도록 안내한다.
       $(this).removeClass('sw-about-play');
-    }else{
+    } else {
       // 슬라이드 멈춤
       swAbout.autoplay.stop();
-
-      // icon 을 play 버튼으로 바꾼다.
-      // 사용자는 멈춘 슬라이드를 play 하려고 할 것이다.
+      // 아이콘을 play 버튼으로 바꾼다.
+      // 사용자는 멈춘 슬라이드를 play 하려고 할것이다.
       $(this).addClass('sw-about-play');
     }
   });
+
+  // sid 슬라이드
+  let swSid = new Swiper('.sw-sid', {
+    loop:true,
+    pagination: {
+      el: '.sw-sid-pg',
+      type: 'fraction'
+    },
+    navigation: {
+      prevEl: '.sw-sid-prev',
+      nextEl: '.sw-sid-next'
+    },
+    autoplay: {
+      delay: 1000,
+      disableOnInteraction: false,
+    }
+  });
+
+  // 자동 실행 멈춤/재생
+  let swSidPause = $('.sw-sid-pause');
+  swSidPause.click(function(){
+
+    // 현재 sw-sid-play 클래스 적용중?
+    // true, false
+    let temp = $(this).hasClass('sw-sid-play');
+    if(temp == false) {
+      
+      $(this).addClass('sw-sid-play');
+      // 슬라이드 멈추기
+      swSid.autoplay.stop();
+
+    }else{
+
+      $(this).removeClass('sw-sid-play');
+      // 슬라이드 재생
+      swSid.autoplay.start();
+
+    }
+
+  });
+
 };
