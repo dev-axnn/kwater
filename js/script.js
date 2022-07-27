@@ -1,4 +1,34 @@
-$(document).ready(function () {});
+$(document).ready(function () {
+
+  // 검색 필드 기능
+  // 검색 필드를 보여주는 버튼
+  let searchBt = $('.search-bt');
+  // 검색 필드
+  let searchWrap = $('.search-wrap');
+
+
+  // 검색필드 보여주는 버튼 클릭
+  // 클릭할때 서서히 보이고 숨기기 토글
+  // fadeToggle();
+
+  searchBt.click(function (event) {
+    event.preventDefault();
+    searchWrap.stop().fadeToggle();
+    
+    // 검색 버튼 이미지 교체하기
+    let imgName = $(this).find('img').attr('src');
+
+    if(imgName == 'images/main_search.png') {
+      $(this).find('img').attr('src', 'images/search_btn_close.png');
+      $(this).css('background', '#3d66c4');
+    }else{
+      $(this).find('img').attr('src', 'images/main_search.png');
+      $(this).css('background', '#fff');
+    }
+  
+  });
+
+});
 window.onload = function () {
   // 랜덤 천사 기능(0~2)
   let rNum = Math.floor(Math.random() * 3);
@@ -91,19 +121,13 @@ window.onload = function () {
     // true, false
     let temp = $(this).hasClass('sw-sid-play');
     if(temp == false) {
-      
       $(this).addClass('sw-sid-play');
       // 슬라이드 멈추기
       swSid.autoplay.stop();
-
     }else{
-
       $(this).removeClass('sw-sid-play');
       // 슬라이드 재생
       swSid.autoplay.start();
-
     }
-
   });
-
 };
