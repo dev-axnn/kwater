@@ -10,10 +10,16 @@ $(document).ready(function () {
   // 검색필드 보여주는 버튼 클릭
   // 클릭할때 서서히 보이고 숨기기 토글
   // fadeToggle();
+  searchWrap.click(function(event){
+    // 클릭된 것이 Body 로 못가게 막는다.
+    event.stopPropagation();
+  });
 
   searchBt.click(function (event) {
     event.preventDefault();
-    searchWrap.stop().fadeToggle();
+    // 클릭된 것이 Body 로 못가게 막는다.
+    event.stopPropagation();
+    searchWrap.stop().fadeToggle(300);
     
     // 검색 버튼 이미지 교체하기
     let imgName = $(this).find('img').attr('src');
@@ -25,10 +31,39 @@ $(document).ready(function () {
       $(this).find('img').attr('src', 'images/main_search.png');
       $(this).css('background', '#fff');
     }
+  });
   
+  $('body').click(function(){
+    searchWrap.stop().fadeOut(300);
+    searchBt.find('img').attr('src', 'images/main_search.png');
+    searchBt.css('background', '#fff');
   });
 
+  // 링크사이트 펼침기능
+  // footersite를저장
+  let footerSite = $('.footer-site');
+
+  // site-list를 저장
+  let siteList = $('.site-list');
+
+  footerSite.click(function () {    
+
+    let temp = $(this).hasClass('footer-site-open');
+    if(temp == true) {
+      siteList.stop().slideUp(500);
+      $(this).removeClass('footer-site-open');
+    }else{      
+      siteList.stop().slideDown(500);
+      $(this).addClass('footer-site-open');
+    }
+  });
+
+  footerSite.mouseleave(function () {
+    siteList.stop().slideUp(500);
+    $(this).removeClass('footer-site-open');
+  });
 });
+
 window.onload = function () {
   // 랜덤 천사 기능(0~2)
   let rNum = Math.floor(Math.random() * 3);
@@ -49,13 +84,54 @@ window.onload = function () {
   });
 
   // 비주얼 슬라이드
-  new Swiper('.sw-visual', {
-    slidesPerView: 8,
+  new Swiper('.sw-visual', {    
+    slidesPerView: 3,
+    grid: {
+      rows: 2,
+    },
     loop: true,
     navigation: {
       prevEl: '.sw-visual-prev',
       nextEl: '.sw-visual-next'
-    }
+    },
+    breakpoints: {
+      760: {
+        slidesPerView: 4, 
+        grid: {
+          rows: 1,
+        },
+      },   
+      800: {
+        slidesPerView: 4, 
+        grid: {
+          rows: 1,
+        },
+      },   
+      960: {
+        slidesPerView: 5, 
+        grid: {
+          rows: 1,
+        },
+      },   
+      1080: {
+        slidesPerView: 6, 
+        grid: {
+          rows: 1,
+        },
+      },   
+      1200: {
+        slidesPerView: 7, 
+        grid: {
+          rows: 1,
+        },
+      },   
+      1260: {
+        slidesPerView: 8, 
+        grid: {
+          rows: 1,
+        },
+      },
+    },
   });
 
   // about 슬라이드
