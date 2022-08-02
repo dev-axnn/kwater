@@ -1018,7 +1018,9 @@ body {
   margin-right: 15px;
 }
 
-.service-info-bottom {}
+.service-info-bottom {
+  position: relative;
+}
 
 .service-info-bottom strong {
   margin-top: 25px;
@@ -1029,6 +1031,7 @@ body {
 }
 
 .service-info-list {
+  width: 55%;
   float: right;
 }
 

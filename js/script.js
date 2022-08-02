@@ -212,7 +212,7 @@ window.onload = function () {
 
   // 뉴스 탭메뉴
   // 탭 메뉴 저장
-  let newsBtmMenu = $('.news-btm-menu a');
+  let newsBtmMenu = $('.news-btm-menu > a');
   // 탭의 내용
   // html 구조상의 문제로 문제가 발생합니다. 
   let newsBtmCont = [
@@ -255,7 +255,7 @@ window.onload = function () {
       $.each(newsBtmMenu, function(index, item){
         // 화면 리사이즈마다 물어본다.
         let temp = $(this).hasClass('news-btm-menu-active');
-        if(temp == true) {
+        if(temp) {
           newsBtmCont[0].hide();
           newsBtmCont[1].hide();
           newsBtmCont[2].hide();
