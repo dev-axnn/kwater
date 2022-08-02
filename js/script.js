@@ -186,7 +186,10 @@ window.onload = function () {
     autoplay: {
       delay: 1000,
       disableOnInteraction: false,
-    }
+    },
+    // display 변경시 꼭 넣어야 하는 코드
+    observer: true,
+    observeParents: true,
   });
 
   // 자동 실행 멈춤/재생
@@ -204,6 +207,61 @@ window.onload = function () {
       $(this).removeClass('sw-sid-play');
       // 슬라이드 재생
       swSid.autoplay.start();
+    }
+  });
+
+  // 뉴스 탭메뉴
+  // 탭 메뉴 저장
+  let newsBtmMenu = $('.news-btm-menu a');
+  // 탭의 내용
+  // html 구조상의 문제로 문제가 발생합니다. 
+  let newsBtmCont = [
+    // $('.news-box-btm').eq(0),
+    $('.news-box-btm').eq(1),
+    $('.news-box-btm').eq(2),
+    $('.news-box-btm').eq(3)
+  ];
+  
+  // 활성화될 번호 기억
+  let newsBtmIdx = 0;
+  // newsBtmCont[0].hide();
+  // newsBtmCont[1].hide();
+  // newsBtmCont[2].hide();
+  // newsBtmCont[newsBtmIdx].show();
+  // newsBtmMenu.removeClass('.news-btm-menu-active');
+  // newsBtmMenu.eq(newsBtmIdx).addClass('.news-btm-menu-active');
+
+  // 탭 메뉴 클릭시 내용 보여주기
+  $.each(newsBtmMenu, function(index, item){
+    $(this).click(function(event){
+      event.preventDefault();
+      newsBtmMenu.removeClass('news-btm-menu-active');
+      $(this).addClass('news-btm-menu-active');
+      newsBtmCont[0].hide();
+      newsBtmCont[1].hide();
+      newsBtmCont[2].hide();
+      newsBtmCont[index].show();
+    });
+  });
+  // 화면 리사이징시 jquery css 제거
+  $(window).resize(funcion(){
+    // 화면 너비
+    let wW = $(window).width();
+    if(wW > 630) {
+      newsBtmCont[0].removeAttr('style');
+      newsBtmCont[1].removeAttr('style');
+      newsBtmCont[2].removeAttr('style');
+    }else{
+      $.each(newsBtmMenu, function(index, item){
+        // 화면 리사이즈마다 물어본다.
+        let temp = $(this).hasClass('news-btm-menu-active');
+        if(temp == true) {
+          newsBtmCont[0].hide();
+          newsBtmCont[1].hide();
+          newsBtmCont[2].hide();
+          newsBtmCont[index].show();
+        }
+      });
     }
   });
 };
