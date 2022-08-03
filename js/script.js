@@ -210,6 +210,42 @@ window.onload = function () {
     }
   });
 
+  // News-top 영역 스와이프 슬라이드
+  // 슬라이드 옵션
+  let swNewsListOpt = {
+    loop: true,
+    slidesPerView: 2,
+    spaceBetween: 12,
+    breakpoints: {
+      680: {
+        slidesPerView: 4
+      }
+    }
+  };
+  // 슬라이드 저장
+  let swNewsList;
+  // = new Swiper('.sw-news-list', swNewsListOpt);  
+  // 화면이 작아질때, 즉, 1000px 보다 작을 때 슬라이드 생성되어야 함.
+  // 만약 1000px 보다 크면 슬라이드는 제거가 되어야 한다.
+  $(window).resize(function(){
+
+    let wW = $(window).width();
+
+    if(wW <= 1000) {
+      // 슬라이드 생성
+      if(swNewsList == undefined) {
+        swNewsList = new Swiper('.sw-news-list', swNewsListOpt );
+      }      
+    }else{
+      // 슬라이드 제거
+      if(swNewsList != undefined) {
+        swNewsList.destroy();
+        swNewsList = undefined;
+      }
+    }
+
+  });
+
   // 뉴스 탭메뉴
   // 탭 메뉴 저장
   let newsBtmMenu = $('.news-btm-menu > a');
