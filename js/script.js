@@ -216,10 +216,17 @@ window.onload = function () {
     loop: true,
     slidesPerView: 2,
     spaceBetween: 12,
-    breakpoints: {
-      680: {
-        slidesPerView: 4
-      }
+    breakpoints : {
+      700: {
+        slidesPerView: 3, 
+      },  
+      900: {
+        slidesPerView: 4, 
+      }  
+    },
+    navigation : {
+      prevEl: '.sw-news-list-prev',
+      nextEl: '.sw-news-list-next'
     }
   };
   // 슬라이드 저장
@@ -229,7 +236,9 @@ window.onload = function () {
   // 만약 1000px 보다 크면 슬라이드는 제거가 되어야 한다.
   $(window).resize(function(){
 
-    let wW = $(window).width();
+    // jQuery 는 scroll 빼고 너비잡는다.
+    // javaScript window.innerWidth
+    let wW = window.innerWidth;
 
     if(wW <= 1000) {
       // 슬라이드 생성
@@ -243,8 +252,20 @@ window.onload = function () {
         swNewsList = undefined;
       }
     }
-
   });
+
+  // 최초 진입 및 새로 고침 시에도 체크
+  let wW = window.innerWidth;   
+  if(wW <= 1000) {
+    if(swNewsList == undefined) {
+       swNewsList = new Swiper('.sw-news-list', swNewsListOpt );
+    }      
+  }else{
+    if(swNewsList != undefined) {
+      swNewsList.destroy();
+      swNewsList = undefined;
+    }
+  }
 
   // 뉴스 탭메뉴
   // 탭 메뉴 저장
@@ -264,8 +285,8 @@ window.onload = function () {
   // newsBtmCont[1].hide();
   // newsBtmCont[2].hide();
   // newsBtmCont[newsBtmIdx].show();
-  // newsBtmMenu.removeClass('.news-btm-menu-active');
-  // newsBtmMenu.eq(newsBtmIdx).addClass('.news-btm-menu-active');
+  // newsBtmMenu.removeClass('news-btm-menu-active');
+  // newsBtmMenu.eq(newsBtmIdx).addClass('news-btm-menu-active');
 
   // 탭 메뉴 클릭시 내용 보여주기
   $.each(newsBtmMenu, function(index, item){
@@ -280,7 +301,7 @@ window.onload = function () {
     });
   });
   // 화면 리사이징시 jquery css 제거
-  $(window).resize(funcion(){
+  $(window).resize(function(){
     // 화면 너비
     let wW = $(window).width();
     if(wW > 630) {
