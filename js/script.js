@@ -1,4 +1,271 @@
 $(document).ready(function () {
+  // 모바일 메뉴
+  let mobileMenu = $('.mobile-menu');
+  let mobileBt = $('.all-menu');
+  mobileBt.click(function (event) {
+    // href 막기
+    event.preventDefault();
+    let wW = window.innerWidth;
+    if (wW > 1000) {
+      return;
+    }
+
+    mMainMenu.removeClass('m-mainmenu-active');
+    mSubMenu.hide();
+    mDepth3.hide();
+
+    mobileMenu.toggleClass('mobile-menu-active');
+    // 모바일 메뉴가 펼쳐졌는지 아닌지를 판단(true/false);
+    let temp = mobileMenu.hasClass('mobile-menu-active');
+    if (temp) {
+      $('html').css('overflow', 'hidden');
+      $(this).find('img').attr('src', 'images/search_close.png');
+    } else {
+      $('html').css('overflow-y', 'auto');
+      $(this).find('img').attr('src', 'images/main_allmenu.png');
+    }
+
+  });
+
+  // 모바일 메뉴 Depth1
+  let mMenu = $('.m-menu');
+  let mMenuLi = $('.m-menu > li');
+  // 주메뉴
+  let mMainMenu = $('.m-mainmenu');
+  // 서브메뉴 Depth2
+  let mSubMenu = $('.m-submenu');
+  // 서브메뉴 Depth3
+  let mDepth3 = $('.m-depth3');
+
+  $.each(mMenuLi, function (index, item) {
+
+    let depth1 = $(this).find('.m-mainmenu');
+    depth1.click(function (event) {
+      event.preventDefault();
+      // 현재 포커스가 있는지 없는지 파악
+      let temp = $(this).hasClass('m-mainmenu-active');
+
+      if (temp) {
+        // temp 는 true 가 나온 상황이 메뉴 오픈 된 상태
+        // 닫힌 상태로 바꾸어주어야 한다.
+        $(this).removeClass('m-mainmenu-active');
+        // 서브메뉴를 닫아준다.
+        $(this).next().stop().slideUp();
+
+      } else {
+        // 일단 모든 메뉴를 닫고 
+        mMainMenu.removeClass('m-mainmenu-active');
+        // 클릭된 메뉴만 펼친다.
+        $(this).addClass('m-mainmenu-active');
+        // 일단 모든 서브메뉴를 닫아라.
+        mSubMenu.stop().slideUp();
+        // 하나는 열어라
+        $(this).next().stop().slideDown();
+      }
+      // 3Depth 는 무조건 닫는다.
+      mDepth3.stop().slideUp();
+
+    });
+  });
+
+  $.each(mSubMenu, function (index, item) {
+    let mSubMenuA = $(this).find('> li > a');
+
+    mSubMenuA.click(function (event) {
+      // depth3 가 있는지 검사
+      let depth3 = $(this).next();
+
+      if (depth3.length) {
+        // href 있다면.. 막는다.
+        event.preventDefault();
+
+        let tempShow = depth3.css('display');
+        if (tempShow == 'none') {
+          // 안보이고 있던 상태라면
+          // 보이게 해준다.
+          // 일단 모두 숨긴다.
+          mDepth3.stop().slideUp();
+          depth3.stop().slideDown();
+        } else {
+          // 보이고 있던 상태라면
+          // 가려준다.
+          depth3.stop().slideUp();
+        }
+
+      }
+
+    });
+
+  });
+
+
+  // 마우스 휠 코드
+  let section = $('.wrap > section');
+  let footer = $('.footer');
+
+  let sectionSpeed = 500;
+  let sectionPos = [];
+  let sectionIndex = 0;
+  // 연속 휠 막기
+  let scrollIng = false;
+  // 화면사이즈 체크
+  let wheelIng = true;
+  let sectionMenu = $('.section-menu');
+
+  function wheelCheckFn() {
+    let wW = window.innerWidth;
+    if (wW <= 1000) {
+      wheelIng = false;
+      sectionMenu.hide();
+    } else {
+      wheelIng = true;
+      sectionMenu.show();
+      mobileMenu.removeClass('mobile-menu-active');
+      mobileBt.find('img').attr('src', 'images/main_allmenu.png');
+    }
+  }
+
+  wheelCheckFn();
+
+  $(window).resize(function () {
+    wheelCheckFn();
+  });
+
+  // 위치 파악 (Y 스크롤 이동 px )
+  function resetSection() {
+
+    $.each(section, function (index, item) {
+      let tempY = $(this).offset().top;
+      tempY = Math.ceil(tempY);
+      sectionPos[index] = tempY;
+    });
+
+    // footer 위치를 추가 및 변경 합니다.
+    sectionPos[sectionPos.length] = Math.ceil(footer.offset().top);
+  }
+
+  // 최초에 새로고침 또는 실행시 위치값파악
+  resetSection();
+
+  // footer 추가로 인한 코드 위치 변경
+  let sectionTotal = sectionPos.length;
+
+  $(window).resize(function () {
+    resetSection();
+
+    if (wheelIng) {
+      // 색상 셋팅
+      sectionColor();
+      gsap.to($('html'), sectionSpeed / 1000, {
+        scrollTo: sectionPos[sectionIndex],
+        onComplete: function () {
+          scrollIng = false;
+        }
+      });
+    }
+
+  });
+
+  // 스크롤바의 윗쪽 위치값을 파악한다.
+  $(window).scroll(function () {
+
+    if (wheelIng) {
+      return;
+    }
+
+    let tempY = $(window).scrollTop();
+    tempY = Math.ceil(tempY);
+    for (let i = sectionTotal - 1; i >= 0; i--) {
+      let tempMax = sectionPos[i];
+      if (tempY >= tempMax) {
+        sectionIndex = i;
+        break;
+      }
+    }
+  });
+
+  // 마우스 휠 체크
+  $(window).bind('mousewheel DOMMouseScroll', function (event) {
+
+    let distance = event.originalEvent.wheelDelta;
+    if (distance == null) {
+      distance = event.originalEvent.detail * -1;
+    }
+
+    // 화면 사이즈에 따른 작동여부
+    if (wheelIng != true) {
+      return;
+    }
+
+    // 연속 휠 막아준다.
+    if (scrollIng) {
+      return;
+    }
+    scrollIng = true;
+
+    if (distance < 0) {
+      sectionIndex++;
+      if (sectionIndex >= sectionTotal) {
+        sectionIndex = sectionTotal - 1;
+      }
+    } else {
+      sectionIndex--;
+      if (sectionIndex <= 0) {
+        sectionIndex = 0;
+      }
+    }
+
+    // 색상 셋팅
+    sectionColor();
+    gsap.to($('html'), sectionSpeed / 1000, {
+      scrollTo: sectionPos[sectionIndex],
+      onComplete: function () {
+        scrollIng = false;
+      }
+    });
+
+  });
+
+  // 섹션 이동 기능
+  let sectionLink = $('.section-menu a');
+  $.each(sectionLink, function (index, item) {
+    $(this).click(function (event) {
+      // href 를 막는다.
+      event.preventDefault();
+      moveSection(index);
+    });
+  });
+
+  function moveSection(_index) {
+    // 보여질 section 번호를 저장
+    sectionIndex = _index;
+
+    // 색상 셋팅
+    sectionColor();
+
+    // 이동모션
+    gsap.to($('html'), sectionSpeed / 1000, {
+      scrollTo: sectionPos[sectionIndex],
+      onComplete: function () {
+        scrollIng = false;
+      }
+    });
+
+  }
+
+  function sectionColor() {
+    // 포커스 표현
+    sectionLink.removeClass('section-menu-active');
+    sectionLink.eq(sectionIndex).addClass('section-menu-active');
+    // 색상 표현
+    sectionLink.removeClass('section-menu-blue');
+    if (sectionIndex != 2 && sectionIndex != 5) {
+      sectionLink.addClass('section-menu-blue');
+    }
+  }
+
+  // 최초 또는 새로 고침 시 색상 셋팅
+  sectionColor();
 
   // 검색 필드 기능
   // 검색 필드를 보여주는 버튼
@@ -84,7 +351,7 @@ window.onload = function () {
   });
 
   // 비주얼 슬라이드
-  new Swiper('.sw-visual', {    
+  let swVisualPc = new Swiper('.sw-visual', {    
     slidesPerView: 3,
     grid: {
       rows: 2,
@@ -132,6 +399,17 @@ window.onload = function () {
         },
       },
     },
+  });
+  
+  let swVisualMb = new Swiper('.sw-visual-mb', {
+    resistance: true,
+    resistanceRatio: 0
+  });
+
+  // 초기 애니메이션 아이콘 숨기기
+  $('.visual-mb').click(function (event) {
+    event.stopPropagation();
+    $('.visual-mb-ani').fadeOut();
   });
 
   // about 슬라이드
